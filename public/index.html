@@ -51,6 +51,10 @@
               </a>
               <div class="p-6">
                 <h5 class="text-gray-900 text-xl font-medium mb-2">I'm pancake</h5>
+                <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentName" style="text-align: center ;">Name: </h5>
+                <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentID" style="text-align: center;">Student ID: </h5>
+                <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentGpa" style="text-align: center;">GPA: </h5>
+                <h5 class="text-gray-900 text-xl font-medium mb-2" id="studentPosition" style="text-align: center;">Position: </h5>
                 <p class="text-gray-700 text-base mb-4">
                   Zzz.Zzz 
                 </p>
@@ -121,7 +125,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                     "Accepts": "application/json",
-                    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjU5MTA0NTMzLCJleHAiOjE2NTkxMDgxMzMsIm5iZiI6MTY1OTEwNDUzMywianRpIjoieWtaNXZsckU4cjRaR2MxSyIsInN1YiI6MzcsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.UYz1c9UT6ZdsJa1KAk5i5Wkq3rUTN8Jwxm5Y9C8Dc_Q",
+                    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjYxNzYzOTMzLCJleHAiOjE2NjE3Njc1MzMsIm5iZiI6MTY2MTc2MzkzMywianRpIjoiVXVybjRKMWJ0VUprNElIQiIsInN1YiI6MzcsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.A3bMDCvF_K_47QmyP-7jNCunBBqlN4N9wrU5tK_PIRs",
                 },
                 success: function(data) {
                     console.log(data);
@@ -265,7 +269,7 @@
                     //elementButtonSave.setAttribute("class","tealA400");
 
 
-                    elementButtonSave.setAttribute("onclick", "popupConfirm('" + items[i].fullname + "',this)");
+                    elementButtonSave.setAttribute("onclick", "sendData('" + items[i].student_id+ "')");
 
 
                     cell5.appendChild(elementButtonSave);
@@ -281,5 +285,25 @@
 
     function popupConfirm(fullname, objElement) {
         alert(fullname);
+    }
+    function sendData(id){
+      //console.log(id);
+      $.ajax({
+        method: "GET",
+        url: "https://tools.ecpe.nu.ac.th/network/api/student/"+id,
+        dataType: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+          "Accepts": "application/json",
+          "Authorization": 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90b29scy5lY3BlLm51LmFjLnRoXC9uZXR3b3JrXC9hcGlcL2xvZ2luIiwiaWF0IjoxNjYxNzYzOTMzLCJleHAiOjE2NjE3Njc1MzMsIm5iZiI6MTY2MTc2MzkzMywianRpIjoiVXVybjRKMWJ0VUprNElIQiIsInN1YiI6MzcsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.A3bMDCvF_K_47QmyP-7jNCunBBqlN4N9wrU5tK_PIRs',
+        },
+        success: function(data){
+          console.log(data);
+          document.getElementById("studentName").innerHTML = "Name: "+data[0].fullname;
+          document.getElementById("studentID").innerHTML = "Student_ID: "+data[0].student_id;
+          document.getElementById("studentGpa").innerHTML = "GPA: "+data[0].gpa;
+          document.getElementById("studentPosition").innerHTML = "Position: "+data[0].position;
+        }
+      });
     }
 </script>
